@@ -1,0 +1,82 @@
+import java.util.Date;
+
+public class Evaluation {
+    // Attributs privés (respect de l'encapsulation)
+    private int note;           // Note sur 5
+    private String commentaire;
+    private Utilisateur evaluateur;  // Utilisateur qui fait l'évaluation
+    private Utilisateur evalue;      // Utilisateur qui est évalué
+    private final Date dateEvaluation;  // Constante d'instance (final)
+    
+    // Variable de classe (static) pour compter le nombre d'évaluations
+    private static int nbEvaluations = 0;
+    
+    // Constructeur principal
+    public Evaluation(int note, String commentaire, Utilisateur evaluateur, Utilisateur evalue) {
+        this.setNote(note);     // Utilisation du setter pour la validation
+        this.commentaire = commentaire;
+        this.evaluateur = evaluateur;
+        this.evalue = evalue;
+        this.dateEvaluation = new Date();  // Date actuelle
+        nbEvaluations++;        // Incrémentation du compteur d'évaluations
+    }
+    
+    // Constructeur surchargé sans commentaire
+    public Evaluation(int note, Utilisateur evaluateur, Utilisateur evalue) {
+        this(note, "Pas de commentaire", evaluateur, evalue);
+    }
+    
+    // Getters et Setters
+    public int getNote() {
+        return note;
+    }
+    
+    public void setNote(int note) {
+        // Validation: note doit être entre 1 et 5
+        if (note >= 1 && note <= 5) {
+            this.note = note;
+        } else {
+            throw new IllegalArgumentException("La note doit être comprise entre 1 et 5");
+        }
+    }
+    
+    public String getCommentaire() {
+        return commentaire;
+    }
+    
+    public void setCommentaire(String commentaire) {
+        this.commentaire = commentaire;
+    }
+    
+    public Utilisateur getEvaluateur() {
+        return evaluateur;
+    }
+    
+    public Utilisateur getEvalue() {
+        return evalue;
+    }
+    
+    public Date getDateEvaluation() {
+        return dateEvaluation;
+    }
+    
+    // Méthode de classe (static)
+    public static int getNombreEvaluations() {
+        return nbEvaluations;
+    }
+    
+    // Redéfinition de la méthode toString()
+    @Override
+    public String toString() {
+        return "Évaluation [Note: " + note + "/5, Commentaire: \"" + commentaire + 
+               "\", Par: " + evaluateur.getNom() + ", Pour: " + evalue.getNom() + 
+               ", Date: " + dateEvaluation + "]";
+    }
+    
+    // Méthode pour ajouter cette évaluation à la réputation d'un utilisateur
+    public void appliquerEvaluation() {
+        // Cette méthode appellerait une méthode de la classe Utilisateur
+        // pour mettre à jour sa réputation avec cette évaluation
+        evalue.ajouterEvaluation(this);
+    }
+}
